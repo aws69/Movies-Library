@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.get('/', handleHome);
 app.get('/favorite', handleFav);
+app.get('/*', handleNotFoud);
 
 // handle 404 errors
 function handleNotFoud(req, res) {
@@ -24,12 +25,13 @@ function handleNotFoud(req, res) {
   }
 
 // handle 500 errors
-function handleNotFoud(req, res) {
-    res.send({
-      code: 500,
-      message: "Internal server error!"
-    });
-  }
+app.use((err, req, res, next) => {
+  res.status(500).send({
+    code: 500,
+    message: "Server Error",
+    ahamd: err,
+  });
+});
   
 
 function handleHome(req, res) {

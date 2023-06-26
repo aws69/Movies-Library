@@ -14,8 +14,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT;
 
-app.get('/getMovies', seeMovieHandler)
-app.post('/addMovie', addMovieHandler)
+app.post('/addMovie', )
 
 app.get('/', handleHome);
 app.get('/favorite', handleFav);
@@ -96,28 +95,22 @@ app.get("/list", async (req, res) => {
   res.status(200).send();
 });
 
-function seeMovieHandler(req, res) {
+app.get('/getMovies', (req, res)=> {
   const sql = `select * from added_movie`;
   client.query(sql).then(movies => {
-      res.status(200).json(
-          {
-              count: movies.rowCount,
-              data: movies.rows
-          });
-      console.log(movies);
-
+      res.status(200).send(movies.rows);
   });
-}
-function addMovieHandler(req, res,) {
+})
+app.post('/addMovie',(req, res,)=> {
   const userInput = req.body;
   const sql = `insert into added_movie(id, title, overview) values($1, $2, $3) returning *`;
 
   const handleValueFromUser = [userInput.id, userInput.title, userInput.overview];
 
   client.query(sql, handleValueFromUser).then(data => {
-      res.status(200).json(data.rows)
-  })
-}
+      res.status(200).send(data.rows)
+  });
+});
 
 
 app.listen(PORT, () => {

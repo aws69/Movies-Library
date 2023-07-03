@@ -15,6 +15,8 @@ in our new update you can searsh for movies by there name and it shoes you the t
 first should be import the express frameWork & cors , then you should store the all method then create a constructor function to ensure your data follow the same format, after that you need to give a PORT to localhost and define the home route, then if you have a lot of pages you need to define them also .
 in the new update you will use 3party API system to connect to other servers and have acces to thir data .
 and now we have our own database we save all the movies data in it so you must now about databases and how to deal with them from the terminal or GUI .
+in our 14 version the user can delete movies by or update them by id .
+
 ## Project Features
 - show the list of movies .
 - you can see what's your favorite Movies.

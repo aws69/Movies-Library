@@ -14,7 +14,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT;
 
-app.post('/addMovie', )
+app.post('/addMovie',)
 
 app.get('/', handleHome);
 app.get('/favorite', handleFav);
@@ -45,14 +45,15 @@ function handleHome(req, res) {
     movieData.overview
   );
   res.status(200).json(movie);
-}
+};
 
 
 
 function handleFav(req, res) {
   console.log('testing the favorite url');
   res.status(200).send('welcome to favorites');
-}
+};
+
 
 app.get("/trending", async (req, res) => {
 
@@ -68,6 +69,7 @@ app.get("/trending", async (req, res) => {
   }
   res.status(200).send(trindingArr);
 });
+
 
 app.get("/search", async (req, res) => {
 
@@ -85,6 +87,7 @@ app.get("/search", async (req, res) => {
   res.status(200).send(searchArr);
 });
 
+
 app.get("/list", async (req, res) => {
   let axiosGenreList = await axios.get(`https://api.themoviedb.org/3/genre/movie/listapi_key=${process.env.SECRET_API}`);
   let dataListArr = axiosGenreList.data['results'];
@@ -95,25 +98,75 @@ app.get("/list", async (req, res) => {
   res.status(200).send();
 });
 
-app.get('/getMovies', (req, res)=> {
+
+app.get('/getMovies', (req, res) => {
   const sql = `select * from added_movie`;
   client.query(sql).then(movies => {
-      res.status(200).send(movies.rows);
+    res.status(200).send(movies.rows);
   });
-})
-app.post('/addMovie',(req, res,)=> {
+});
+
+
+app.post('/addMovie', (req, res,) => {
   const userInput = req.body;
   const sql = `insert into added_movie(id, title, overview) values($1, $2, $3) returning *`;
 
   const handleValueFromUser = [userInput.id, userInput.title, userInput.overview];
 
   client.query(sql, handleValueFromUser).then(data => {
-      res.status(200).send(data.rows)
+    res.status(201).send(data.rows)
   });
 });
 
 
-app.listen(PORT, () => {
-  console.log(`listining at ${PORT}`);
+app.put('/UPDATE/:id', (req, res) => {
+  const id = req.params.id;
+  let dataToUpdate = req.body;
+  const sql = `update movies_list set user_comment = $1  where id = $2 returning *`;
+  const toUpdate = [dataToUpdate.user_comment, id];
+  client.query(sql, toUpdate).then(updated => {
+    res.status(202).json(updated.rows)
+  });
 });
+
+
+app.delete('/DELETE/:id', (req, res) => {
+  const toDeleteID = req.params.id;
+  const sql = `delete from movies_list where id = ${toDeleteID}`;
+  client.query(sql).then(() => {
+    res.status(203).json({
+      status: 203,
+      message: 'The selected movie has been deleted successfully!'
+    })
+  }).catch(err => errorHandling(err, req, res));
+
+});
+
+app.get('/getMovie/:id',(req, res)=> {
+  let id = req.params.id;
+  const sql = `select * from movies_list where id = ${id}`;
+  client.query(sql).then(gotById => {
+
+    let obj = gotById.rows[0];
+    console.log(obj)
+    if (obj !== undefined) {
+      let constructed = new Movie(obj.name, obj.title, obj.poster_path, obj.overview, obj.release_date, obj.first_air_date, obj.movie_id)
+      res.status(204).json({
+        Messeage: 'Movie Found!',
+        result: constructed
+      })
+    }
+    else {
+      res.status(404).json({
+        Messeage: 'Movie NoT Found!'
+
+      })
+    }
+
+  })
+});
+
+  app.listen(PORT, () => {
+    console.log(`listining at ${PORT}`);
+  });
 

@@ -16,6 +16,8 @@ first should be import the express frameWork & cors , then you should store the 
 in the new update you will use 3party API system to connect to other servers and have acces to thir data .
 and now we have our own database we save all the movies data in it so you must now about databases and how to deal with them from the terminal or GUI .
 in our 14 version the user can delete movies by or update them by id .
+in the 15 version of our project you can see the defrince in the arrangement of the code we splited all the components to a specific part by the job that the component do and we changed the way we renderd data in it . 
+
 
 ## Project Features
 - show the list of movies .
@@ -23,3 +25,5 @@ in our 14 version the user can delete movies by or update them by id .
 - you can see trinding movies for evry week.
 - you can search for movies by there name.
 - you can see movies by there gennras.
+- you can update your comments as user .
+- you can delete movie by it's id.

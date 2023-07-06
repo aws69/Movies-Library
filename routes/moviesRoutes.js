@@ -83,7 +83,7 @@ router.get('/getMovies', async (req, res, next) => {
     }
 });
 
-app.get('/getMovie/:id', (req, res, next) => {
+router.get('/getMovie/:id', (req, res, next) => {
     try {
         let id = req.params.id;
         const sql = `select * from movies_list where id = ${id}`;
@@ -144,7 +144,7 @@ router.put('/UPDATE/:id', async (req, res, next) => {
     }
 });
 
-app.delete('/DELETE/:id', async (req, res,next) => {
+router.delete('/DELETE/:id', async (req, res,next) => {
     try {
         const toDeleteID = req.params.id;
         const sql = `delete from movies_list where id = ${toDeleteID}`;

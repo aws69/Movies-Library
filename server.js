@@ -11,7 +11,7 @@ const moviesRoutes = require("./routes/moviesRoutes")
 const client = require("./client");
 const notFoundHnadler = require("./error_handlers/404");
 const InternalErrorsHnadler = require("./error_handlers/500");
-const { PORT } = require("./configs");
+const { PORT } = require("./config");
 
 app.use(cors());
 app.use(express.json());

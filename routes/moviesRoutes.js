@@ -3,7 +3,7 @@
 const express = require('express');
 const axios = require("axios");
 const client = require('../client');
-const { APIKEY } = require('../configs');
+const { APIKEY } = require('../config');
 const router = express.Router();
 
 router.get('/favorite', (req, res, next) => {
